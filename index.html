@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="HS APP STUDIO creates simple, useful Android apps for everyday mobile users.">
+  <title>HS APP STUDIO | Android App Developer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #5d6a7d;
+      --line: #dbe3ec;
+      --paper: #ffffff;
+      --wash: #f5f8fb;
+      --green: #1f9d55;
+      --blue: #2563eb;
+      --coral: #e35d5b;
+      --gold: #d9a441;
+      --shadow: 0 24px 70px rgba(23, 32, 51, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 8% 14%, rgba(31, 157, 85, 0.13), transparent 28rem),
+        radial-gradient(circle at 92% 12%, rgba(37, 99, 235, 0.12), transparent 30rem),
+        linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(219, 227, 236, 0.8);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 74px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      color: #ffffff;
+      background: conic-gradient(from 120deg, var(--green), var(--blue), var(--coral), var(--gold), var(--green));
+      box-shadow: 0 10px 26px rgba(37, 99, 235, 0.22);
+      font-size: 0.95rem;
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .links a {
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      color: var(--ink);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+      align-items: center;
+      gap: 56px;
+      padding: 84px 0 58px;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 20px;
+      font-size: clamp(2.65rem, 8vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 690px;
+      color: var(--muted);
+      font-size: 1.15rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      text-decoration: none;
+      font-weight: 750;
+      box-shadow: 0 10px 28px rgba(23, 32, 51, 0.08);
+    }
+
+    .button.primary {
+      border-color: transparent;
+      color: #ffffff;
+      background: var(--ink);
+    }
+
+    .device-wall {
+      position: relative;
+      min-height: 520px;
+      isolation: isolate;
+    }
+
+    .phone {
+      position: absolute;
+      width: 236px;
+      min-height: 462px;
+      padding: 16px;
+      border: 1px solid rgba(23, 32, 51, 0.12);
+      border-radius: 32px;
+      background: #101827;
+      box-shadow: var(--shadow);
+    }
+
+    .phone.primary-phone {
+      right: 76px;
+      top: 0;
+      z-index: 2;
+    }
+
+    .phone.secondary-phone {
+      right: 0;
+      bottom: 8px;
+      z-index: 1;
+      transform: scale(0.82);
+      background: #243044;
+      opacity: 0.94;
+    }
+
+    .screen {
+      min-height: 430px;
+      overflow: hidden;
+      border-radius: 22px;
+      background: #f8fbff;
+    }
+
+    .screen-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dot-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--green);
+    }
+
+    .dot:nth-child(2) {
+      background: var(--gold);
+    }
+
+    .dot:nth-child(3) {
+      background: var(--coral);
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 18px;
+    }
+
+    .app-tile {
+      min-height: 88px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 8px 18px rgba(23, 32, 51, 0.06);
+    }
+
+    .app-tile:nth-child(1) {
+      background: linear-gradient(135deg, rgba(31, 157, 85, 0.16), #ffffff);
+    }
+
+    .app-tile:nth-child(2) {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.14), #ffffff);
+    }
+
+    .app-tile:nth-child(3) {
+      background: linear-gradient(135deg, rgba(227, 93, 91, 0.14), #ffffff);
+    }
+
+    .app-tile:nth-child(4) {
+      background: linear-gradient(135deg, rgba(217, 164, 65, 0.18), #ffffff);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      padding: 0 18px 18px;
+    }
+
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: #dfe7ef;
+    }
+
+    .bar.short {
+      width: 68%;
+      background: #bfdbfe;
+    }
+
+    section {
+      padding: 52px 0;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    h2 {
+      margin-bottom: 12px;
+      font-size: clamp(1.85rem, 4vw, 3rem);
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 220px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: 0 16px 48px rgba(23, 32, 51, 0.07);
+    }
+
+    .icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      color: #ffffff;
+      background: var(--blue);
+      font-weight: 900;
+    }
+
+    .card:nth-child(2) .icon {
+      background: var(--green);
+    }
+
+    .card:nth-child(3) .icon {
+      background: var(--coral);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.17rem;
+      line-height: 1.25;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .contact-band {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      margin: 34px 0 64px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--ink);
+      color: #ffffff;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-band p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.74);
+    }
+
+    .contact-band .button {
+      color: var(--ink);
+      box-shadow: none;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .links {
+        gap: 14px;
+        font-size: 0.9rem;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 54px;
+      }
+
+      .device-wall {
+        min-height: 420px;
+      }
+
+      .phone.primary-phone {
+        left: 50%;
+        right: auto;
+        transform: translateX(-58%);
+      }
+
+      .phone.secondary-phone {
+        right: 8%;
+      }
+
+      .grid,
+      .contact-band {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .wrap {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 0;
+        gap: 10px;
+      }
+
+      .links {
+        flex-wrap: wrap;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 15vw, 4rem);
+      }
+
+      .hero-copy {
+        font-size: 1rem;
+      }
+
+      .device-wall {
+        min-height: 390px;
+        transform: scale(0.92);
+        transform-origin: top center;
+      }
+
+      .phone.primary-phone {
+        left: 46%;
+      }
+
+      .phone.secondary-phone {
+        right: -6%;
+      }
+
+      .footer-row {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="wrap nav" aria-label="Primary navigation">
+        <a class="brand" href="index.html" aria-label="HS APP STUDIO home">
+          <span class="mark" aria-hidden="true">HS</span>
+          <span>HS APP STUDIO</span>
+        </a>
+        <nav class="links">
+          <a href="#apps">Apps</a>
+          <a href="#support">Support</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">Google Play Developer</p>
+          <h1 id="hero-title">HS APP STUDIO</h1>
+          <p class="hero-copy">We build practical Android apps with simple interfaces, reliable performance, and respectful data practices for everyday mobile users.</p>
+          <div class="actions">
+            <a class="button primary" href="#support">Contact Support</a>
+            <a class="button" href="privacy-policy.html">Read Privacy Policy</a>
+          </div>
+        </div>
+
+        <div class="device-wall" aria-hidden="true">
+          <div class="phone primary-phone">
+            <div class="screen">
+              <div class="screen-head">
+                <strong>Play Console</strong>
+                <span class="dot-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              </div>
+              <div class="app-grid">
+                <div class="app-tile"></div>
+                <div class="app-tile"></div>
+                <div class="app-tile"></div>
+                <div class="app-tile"></div>
+              </div>
+              <div class="list">
+                <span class="bar"></span>
+                <span class="bar short"></span>
+                <span class="bar"></span>
+                <span class="bar short"></span>
+              </div>
+            </div>
+          </div>
+          <div class="phone secondary-phone">
+            <div class="screen">
+              <div class="screen-head">
+                <strong>Studio</strong>
+                <span class="dot-row"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              </div>
+              <div class="app-grid">
+                <div class="app-tile"></div>
+                <div class="app-tile"></div>
+                <div class="app-tile"></div>
+                <div class="app-tile"></div>
+              </div>
+              <div class="list">
+                <span class="bar"></span>
+                <span class="bar short"></span>
+                <span class="bar"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="apps">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Mobile apps built with care.</h2>
+            <p>HS APP STUDIO focuses on Android experiences that are lightweight, direct, and easy to use.</p>
+          </div>
+          <div class="grid">
+            <article class="card">
+              <span class="icon" aria-hidden="true">1</span>
+              <h3>Clean user experience</h3>
+              <p>Our apps are designed around clear screens, quick actions, and dependable everyday use.</p>
+            </article>
+            <article class="card">
+              <span class="icon" aria-hidden="true">2</span>
+              <h3>Responsible data handling</h3>
+              <p>We limit data use to what helps operate, support, secure, and improve our apps.</p>
+            </article>
+            <article class="card">
+              <span class="icon" aria-hidden="true">3</span>
+              <h3>Ongoing support</h3>
+              <p>Questions, feedback, and policy requests are handled through our support contact.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="support">
+        <div class="wrap">
+          <div class="contact-band">
+            <div>
+              <h2>Support</h2>
+              <p>For app support, privacy requests, or general questions, contact HS APP STUDIO by email.</p>
+            </div>
+            <a class="button" href="mailto:contact@hsappstudio.com">contact@hsappstudio.com</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap footer-row">
+        <span>&copy; 2026 HS APP STUDIO. All rights reserved.</span>
+        <span class="footer-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
+        </span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
